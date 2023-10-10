@@ -15,7 +15,7 @@ jobs:
       - name: Append 'a' to README
         run: |
           echo "a" >> README.md
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
           git commit -am "Add 'a' to README"
           git push
