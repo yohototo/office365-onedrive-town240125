@@ -1,0 +1,45 @@
+Skip to content
+yohototo
+/
+365-e5
+
+Type / to search
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Security
+Insights
+Settings
+Update README
+Update README #2
+Jobs
+Run details
+Workflow file for this run
+.github/workflows/update.yml at 90ee5a4
+name: Update README
+
+on:
+  schedule:
+    - cron: '30 2 * * *'  # 每天的午夜执行一次
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    
+    - name: Add date to README
+      run: |
+        DATE=$(date +"%Y-%m-%d")
+        echo -e "\n\n**Updated on: $DATE**" >> README.md
+        git config --local user.name "GitHub Actions"
+        git config --local user.email "actions@github.com"
+        git add README.md
+        git commit -m "Update README with date"
+        git push
+Update README.md · yohototo/365-e5@90ee5a4
