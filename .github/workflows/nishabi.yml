@@ -1,0 +1,23 @@
+name: Update README
+
+on:
+  schedule:
+    - cron: '*/1 * * * *' # 每分钟执行一次
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Update README
+      run: |
+        current_time=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        echo "Last updated at: $current_time" >> readme.md
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add readme.md
+        git commit -m "Update README with UTC time"
+        git push
