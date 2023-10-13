@@ -1,2 +1,3 @@
 
 fkuc
+apt install
