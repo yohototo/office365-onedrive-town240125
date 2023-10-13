@@ -1,3 +1,0 @@
-
-fkuc
-apt install
