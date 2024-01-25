@@ -53,8 +53,8 @@ For more usage methods, please refer to here.
 ## Contribution
 You are welcome to suggest or contribute code to this project. You can participate in the following ways:
 
-#### Submit issues or suggestions here
-#### Submit pull requests or code reviews here
-#### View documentation or examples [here]
+#### Submit issues or suggestions [here](https://github.com/yohototo/office365-onedrive/issues)
+#### Submit pull requests or code reviews [here](https://github.com/yohototo/office365-onedrive/pulls)
+#### View documentation or examples [here](https://github.com/yohototo/office365-onedrive/edit/main/English%20readme.md)
 ## License
 This project is open sourced under the GPL-3.0 license. You can view the license content [here].
