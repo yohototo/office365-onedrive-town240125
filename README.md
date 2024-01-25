@@ -2,7 +2,7 @@
 
 这是一个使用Python编写的项目，可以让你在Linux系统上使用Office 365的OneDrive服务。你可以同步你的本地文件夹和云端的文件夹，也可以上传或下载文件。
 
-## [English]()
+## [English](https://github.com/yohototo/office365-onedrive/blob/main/English%20readme.md)
 
 
 ## 功能
