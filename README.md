@@ -15,8 +15,9 @@
 
 你可以使用pip命令来安装这个项目：
 
-```bash
-pip install office365-onedrive
+```
+bash pip install office365-onedrive
+```
 
 或者你可以从源码编译安装：
 
