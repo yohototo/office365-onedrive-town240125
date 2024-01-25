@@ -19,6 +19,7 @@ You can use the pip command to install this project:
 bash pip install office365-onedrive
 ```
 Or you can install it from the source code:
+
 ```
 git clone https://github.com/yourname/office365-onedrive.git
 cd office365-onedrive
@@ -35,7 +36,7 @@ sync_dir = /home/user/OneDrive
 ```
 You can find instructions on how to get the client_id and client_secret here. You can also modify other configuration options, such as excluding some files or folders, setting the log level, etc. For more configuration options, please refer to here.
 
-##Usage
+## Usage
 You can use the following command to run this project:
 
 onedrive [options]
@@ -55,6 +56,6 @@ You are welcome to suggest or contribute code to this project. You can participa
 
 #### Submit issues or suggestions [here](https://github.com/yohototo/office365-onedrive/issues)
 #### Submit pull requests or code reviews [here](https://github.com/yohototo/office365-onedrive/pulls)
-#### View documentation or examples [here](https://github.com/yohototo/office365-onedrive/edit/main/English%20readme.md)
+#### View documentation or examples [here](https://github.com/yohototo/office365-onedrive/blob/main/English%20readme.md).
 ## License
 This project is open sourced under the GPL-3.0 license. You can view the license content [here].
