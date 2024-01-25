@@ -56,8 +56,8 @@ onedrive [options]
 # 贡献
 欢迎你对这个项目提出建议或贡献代码。你可以通过以下方式参与：
 
-# 在[这里]()提交问题或建议
-# 在[这里]()提交拉取请求或代码审查
-# 在[这里]()查看文档或示例
-# 许可
+## 在[这里](https://github.com/yohototo/office365-onedrive/issues)提交问题或建议
+## 在[这里](https://github.com/yohototo/office365-onedrive/pulls)提交拉取请求或代码审查
+## 在[这里]()查看文档或示例
+## 许可
 这个项目使用GPL-3.0协议开源。你可以在这里查看许可证的内容。
