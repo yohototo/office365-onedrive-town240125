@@ -21,7 +21,7 @@ bash pip install office365-onedrive
 Or you can install it from the source code:
 
 ```
-git clone https://github.com/yourname/office365-onedrive.git
+git clone https://github.com/yohototo/office365-onedrive.git
 cd office365-onedrive
 python setup.py install
 ```
