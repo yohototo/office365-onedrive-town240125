@@ -37,6 +37,43 @@ remote_file.download('./test.txt')
 
 # 删除一个云端文件
 client.item(drive='me', id=new_folder.id).children['test.txt'].delete()
-AI 生成的代码。仔细查看和使用。 有关常见问题解答的详细信息.
-Python
+
+# 列出特定文件夹中的所有文件和文件夹
+def list_folder_items(folder_id):
+    try:
+        folder_items = client.item(drive='me', id=folder_id).children.get()
+        for item in folder_items:
+            print(item.name, item.folder if item.folder else item.file)
+    except Exception as e:
+        print(f"Error listing items in folder: {e}")
+
+# 更新一个云端文件
+def update_file(folder_id, file_name, new_content):
+    try:
+        file_item = client.item(drive='me', id=folder_id).children[file_name].get()
+        file_item.content = new_content
+        file_item.update()
+        print(f"File {file_name} updated successfully.")
+    except Exception as e:
+        print(f"Error updating file: {e}")
+
+# 错误处理示例
+try:
+    # 尝试获取一个不存在的文件
+    non_existent_file = client.item(drive='me', id='non_existent_id').get()
+except onedrivesdk.error.OneDriveError as e:
+    print(f"OneDrive error: {e}")
+except Exception as e:
+    print(f"General error: {e}")
+
+# 示例用法
+# 列出新文件夹中的所有文件和文件夹
+list_folder_items(new_folder.id)
+
+# 更新新文件夹中的文件
+update_file(new_folder.id, 'test.txt', 'This is the updated content of the file.')
+
+# 关闭本地文件
+local_file.close()
+
 
