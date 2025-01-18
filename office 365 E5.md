@@ -87,3 +87,20 @@ rclone config show gaogao
 
 Rclone挂载OneDrive为本地硬盘-Windows篇 (lanxh.com)
  下载winfsphttp://www.secfs.net/winfsp/rel/
+
+ # Install WinFsp
+# Download and install WinFsp from the provided link
+# http://www.secfs.net/winfsp/rel/
+
+# Create an Rclone configuration for OneDrive
+rclone config
+
+# Show the configuration details for 'gaogao' remote
+rclone config show gaogao
+
+# Mount the OneDrive remote 'gaogao' to a local drive on Windows
+rclone mount gaogao: E:\winod --vfs-cache-mode writes
+
+# Move the file 'tiny11 b2.iso' from OneDrive to the root directory
+mv /home/onedrive/"tiny11 b2.iso" /root/
+
