@@ -1,79 +1,77 @@
-# 导入onedrivesdk模块
-import onedrivesdk
-
-# 创建一个OneDrive客户端对象
-client = onedrivesdk.get_default_client(
-    client_id='your_client_id', # 你的客户端ID
-    scopes=['wl.signin', 'wl.offline_access', 'onedrive.readwrite'] # 你的授权范围
-)
-
-# 获取授权码并登录
-auth_url = client.auth_provider.get_auth_url('https://login.microsoftonline.com/common/oauth2/nativeclient')
-print('请在浏览器中打开以下链接，并复制授权码：')
-print(auth_url)
-code = input('请输入授权码：')
-client.auth_provider.authenticate(code, 'https://login.microsoftonline.com/common/oauth2/nativeclient', 'your_client_secret') # 你的客户端密钥
-
-# 获取OneDrive的根文件夹
-root_folder = client.item(drive='me', id='root').children.get()
-
-# 遍历根文件夹下的所有文件和文件夹，并打印它们的名称和类型
-for item in root_folder:
-    print(item.name, item.folder if item.folder else item.file)
-
-# 创建一个新的文件夹
-new_folder = onedrivesdk.Folder()
-new_folder.name = 'Test'
-new_folder.child_count = 0
-client.item(drive='me', id='root').children.add(new_folder)
-
-# 上传一个本地文件到新的文件夹
-local_file = open('test.txt', 'rb')
-client.item(drive='me', id=new_folder.id).children['test.txt'].upload(local_file)
-
-# 下载一个云端文件到本地
-remote_file = client.item(drive='me', id=new_folder.id).children['test.txt'].get()
-remote_file.download('./test.txt')
-
-# 删除一个云端文件
-client.item(drive='me', id=new_folder.id).children['test.txt'].delete()
-
-# 列出特定文件夹中的所有文件和文件夹
-def list_folder_items(folder_id):
+# 递归列出文件夹中的所有文件和子文件夹
+def list_folder_items_recursive(folder_id, indent=""):
     try:
         folder_items = client.item(drive='me', id=folder_id).children.get()
         for item in folder_items:
-            print(item.name, item.folder if item.folder else item.file)
+            print(f"{indent}{item.name} ({'Folder' if item.folder else 'File'})")
+            if item.folder:  # 如果是文件夹，则递归列出其内容
+                list_folder_items_recursive(item.id, indent + "  ")
     except Exception as e:
-        print(f"Error listing items in folder: {e}")
+        print(f"Error listing items recursively: {e}")
 
-# 更新一个云端文件
-def update_file(folder_id, file_name, new_content):
+# 移动文件或文件夹
+def move_item(item_id, new_parent_id):
     try:
-        file_item = client.item(drive='me', id=folder_id).children[file_name].get()
-        file_item.content = new_content
-        file_item.update()
-        print(f"File {file_name} updated successfully.")
-    except Exception as e:
-        print(f"Error updating file: {e}")
+        # 创建一个新的引用对象，指定目标父文件夹
+        new_parent_reference = onedrivesdk.ItemReference()
+        new_parent_reference.id = new_parent_id
 
-# 错误处理示例
-try:
-    # 尝试获取一个不存在的文件
-    non_existent_file = client.item(drive='me', id='non_existent_id').get()
-except onedrivesdk.error.OneDriveError as e:
-    print(f"OneDrive error: {e}")
-except Exception as e:
-    print(f"General error: {e}")
+        # 执行移动操作
+        moved_item = client.item(drive='me', id=item_id).move(new_parent_reference).post()
+        print(f"Item moved successfully to new parent folder: {moved_item.name}")
+    except Exception as e:
+        print(f"Error moving item: {e}")
+
+# 复制文件或文件夹
+def copy_item(item_id, new_parent_id):
+    try:
+        # 创建一个新的引用对象，指定目标父文件夹
+        new_parent_reference = onedrivesdk.ItemReference()
+        new_parent_reference.id = new_parent_id
+
+        # 执行复制操作
+        copied_item = client.item(drive='me', id=item_id).copy(name=None, parent_reference=new_parent_reference).post()
+        print(f"Item copied successfully to new parent folder: {copied_item.name}")
+    except Exception as e:
+        print(f"Error copying item: {e}")
+
+# 搜索文件
+def search_files(query):
+    try:
+        # 使用 OneDrive 的搜索功能
+        search_results = client.item(drive='me', id='root').search(q=query).get()
+        if search_results:
+            print(f"Search results for '{query}':")
+            for item in search_results:
+                print(f"- {item.name} ({'Folder' if item.folder else 'File'})")
+        else:
+            print(f"No results found for query: {query}")
+    except Exception as e:
+        print(f"Error searching files: {e}")
 
 # 示例用法
-# 列出新文件夹中的所有文件和文件夹
-list_folder_items(new_folder.id)
+if __name__ == "__main__":
+    # 递归列出新文件夹中的所有文件和子文件夹
+    print("\n--- Recursive Listing of Folder Items ---")
+    list_folder_items_recursive(new_folder.id)
 
-# 更新新文件夹中的文件
-update_file(new_folder.id, 'test.txt', 'This is the updated content of the file.')
+    # 移动文件或文件夹
+    print("\n--- Moving an Item ---")
+    move_item(new_folder.id, root_folder[0].id)  # 将新文件夹移动到根目录的第一个文件夹中
 
-# 关闭本地文件
-local_file.close()
+    # 复制文件或文件夹
+    print("\n--- Copying an Item ---")
+    copy_item(new_folder.id, root_folder[0].id)  # 将新文件夹复制到根目录的第一个文件夹中
 
+    # 搜索文件
+    print("\n--- Searching Files ---")
+    search_files("test.txt")  # 搜索名为 test.txt 的文件
 
+    # 清理资源
+    print("\n--- Cleaning Up Resources ---")
+    try:
+        # 删除新创建的文件夹及其内容
+        client.item(drive='me', id=new_folder.id).delete()
+        print("New folder and its contents deleted successfully.")
+    except Exception as e:
+        print(f"Error cleaning up resources: {e}")
